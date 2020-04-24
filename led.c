@@ -110,7 +110,19 @@ void  uart0_byte(uint64_t h){
 
 }
 
+uint32_t get_current_el(){
+  uint32_t el;
+  asm volatile("mrs %0, CurrentEL" : "=r"(el));
+
+  return el;
+}
+
+
 void led_test(void){
+  uart0_puts("current_el =");
+  uart0_hex(get_current_el());
+  uart0_puts("\n");;
+  uart0_puts("\n\nStart LED test\n\n");
   volatile int j;
   unsigned long val = 0x04;
   while (1) {
@@ -125,10 +137,17 @@ void led_test(void){
   return;
 }
 
+extern void _el3_el2(void);
+extern void _el3_el1(void);
+
 int main(void)
 {
   *(unsigned int *)(PCR_PB_CFG0) = 0x00000100;
   uart0_puts("\n\nStart 64bit World!!!!\n\n");
+  uart0_puts("current_el =");
+  uart0_hex(get_current_el());
+  uart0_puts("\n");;
+  _el3_el1();
   led_test();
   return 0;
 }

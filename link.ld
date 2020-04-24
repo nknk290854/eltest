@@ -32,7 +32,10 @@ SECTIONS
     __stack_firm_end   = __stack_start;
     __stack_firm_start = __stack_firm_end + 1024 * 1024 * 8;
     /* 8MiB space for EL1 */
-    __stack_el1_end   = __stack_firm_start;
+    __stack_el2_end   = __stack_firm_start;
+    __stack_el2_start = __stack_el2_end + 1024 * 1024 * 8;
+    /* 8MiB space for EL1 */
+    __stack_el1_end   = __stack_el2_start;
     __stack_el1_start = __stack_el1_end + 1024 * 1024 * 8;
     /* 8MiB space for EL0 */
     __stack_el0_end   = __stack_el1_start;
