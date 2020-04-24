@@ -5,7 +5,7 @@ OBJCOPY=${TOOL_PREFIX}-objcopy
 OBJDUMP=${TOOL_PREFIX}-objdump
 CFLAGS  = -O0 -nostdinc -nostdlib -nostartfiles
 
-SRC = led.c pine64.S
+SRC = led.c pine64.S exception.c
 TARGET = eltest
 SD_CARD_PATH = /dev/sdb
 AARCH64_START_ADDRESS=0x40080000
@@ -44,11 +44,6 @@ boot64: ${TARGET}.bin
 	sudo ${SUNXI_FEL} spl sunxi-a64-spl32-ddr3.bin
 	sudo ${SUNXI_FEL} write ${AARCH64_START_ADDRESS} ${TARGET}.bin
 	sudo ${SUNXI_FEL} reset64 ${AARCH64_START_ADDRESS}
-
-boot:
-	sudo ${SUNXI_FEL} write ${AARCH64_START_ADDRESS} ${TARGET}.bin
-	sudo ${SUNXI_FEL} reset64 ${AARCH64_START_ADDRESS}
-
 
 sunxi-a64-spl32-ddr3.bin:
 	wget https://github.com/apritzel/pine64/raw/master/binaries/sunxi-a64-spl32-ddr3.bin
