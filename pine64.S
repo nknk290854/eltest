@@ -114,6 +114,7 @@ completed:
 	// set stack before _start
     ldr     x1, =__stack_firm_start
     mov     sp, x1
+
     /* Set up CNTFRQ_EL0 */
     ldr x0, =OSC_FREQ
     msr CNTFRQ_EL0, x0
@@ -126,10 +127,10 @@ completed:
     mov x0, #(1 << 8)
     msr CPTR_EL3, x0
 
-
+    bl      main
     /* Set up SCR */
-    mov x0, #SCR_VAL
-    msr SCR_EL3, x0
+//    mov x0, #SCR_VAL
+//    msr SCR_EL3, x0
 
     /* Set SMPEN */
     mov x0, #CPUECTLR_EL1_SMPEN
@@ -210,6 +211,8 @@ completed:
 _start_el2:
 	bl      led_test
 _start_el1:
+    ldr     x1, =__stack_el1_start
+    msr     sp_el1, x1
 	bl      led_test
 .global _el3_el2
 #define MODE_AARCH64_EL2H 0x9
